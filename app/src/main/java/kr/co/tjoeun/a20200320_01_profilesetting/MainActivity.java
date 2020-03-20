@@ -10,11 +10,13 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+
 import kr.co.tjoeun.a20200320_01_profilesetting.databinding.ActivityMainBinding;
 
 public class MainActivity extends BaseActivity {
 
-    private static final int REQUESTFOR_ALBUM = 1000;
+    private static final int REQUEST_FOR_ALBUM = 1000;
 
     ActivityMainBinding binding = null;
 
@@ -46,7 +48,7 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent,REQUESTFOR_ALBUM);
+                startActivityForResult(intent,REQUEST_FOR_ALBUM);
             }
         });
 
@@ -61,10 +63,12 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUESTFOR_ALBUM){
+        if (requestCode == REQUEST_FOR_ALBUM){
             if(resultCode == RESULT_OK) {
-                if (data.getData() != null) {
+                if (data.getData()!=null) {
                     Log.d("사진가져오기",data.getData().toString());
+                    Glide.with(mContext).load(data.getData()).into(binding.profileImg);
+
 
                 }
             }
